@@ -1,7 +1,7 @@
 #coding=utf-8
 
 
-code_dectionary =
+code_dectionary = "../code"
 
 
 
