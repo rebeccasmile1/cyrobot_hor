@@ -3,6 +3,9 @@
 from python import cylib_file
 import re #正则表达式
 
+
+from python import  cylib_ringbuffer
+
 code_dectionary = "../code"
 
 
@@ -73,7 +76,7 @@ def get_all_uart_list():
 
     print("开始生成循环缓冲区")
 
-
+    return usart_list
 
 
 
@@ -96,9 +99,10 @@ if __name__ == "__main__" :
 
     print("cylib_uart patch")
 
-    get_all_uart_list()
+    list = get_all_uart_list()
 
-
+    for huartx in enumerate(list) :
+        cylib_ringbuffer.generator(str(huartx[1]),"./generator/")
 
 
 
