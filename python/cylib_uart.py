@@ -2,11 +2,11 @@
 
 from python import cylib_file
 import re #正则表达式
-
+import shutil #复制文件
+import os
 
 from python import  cylib_ringbuffer
 
-code_dectionary = "../code"
 
 
 
@@ -15,7 +15,8 @@ code_dectionary = "../code"
 
 
 
-def get_all_uart_list():
+
+def get_all_uart_list(code_dectionary):
 
     usart_list = []#串口列表
 
@@ -96,13 +97,25 @@ def get_all_uart_list():
 
 if __name__ == "__main__" :
 
+    source_code_path = "../code/"
+    generator_path = "./generator/"
+    source_code_patch_path = source_code_path + "cylib/"
 
     print("cylib_uart patch")
 
-    list = get_all_uart_list()
+    list = get_all_uart_list(source_code_path)  #获取代码中的 串口列表
 
-    for huartx in enumerate(list) :
-        cylib_ringbuffer.generator(str(huartx[1]),"./generator/")
+    #检查 源代码文件夹存在性
+    if os.path.exists(source_code_patch_path) == False :
+        os.mkdir(source_code_patch_path) # 创建cylib文件夹
+
+    for huartx in enumerate(list):
+        generator_file_list = cylib_ringbuffer.generator(str(huartx[1]), generator_path)  #生成串口缓冲文件
+        shutil.copyfile(generator_path + generator_file_list[0], source_code_patch_path + generator_file_list[0])
+        shutil.copyfile(generator_path + generator_file_list[1], source_code_patch_path + generator_file_list[1])
+        print(generator_file_list)
+
+
 
 
 

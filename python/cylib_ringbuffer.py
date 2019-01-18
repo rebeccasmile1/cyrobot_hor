@@ -314,6 +314,9 @@ def generator_c_file( name ) :
 #name = "huart1"
 #genpath = "./generator/"
 def generator(name , genpath) :
+
+    generator_file_list = [] #生成的文件列表
+
     h = generator_h_file(name)
 
     c = generator_c_file(name)
@@ -352,9 +355,20 @@ def generator(name , genpath) :
     else:
         print("目标文件存在")
 
+    generator_file_list.append(name+"_ringbuffer.c")
+    generator_file_list.append(name+"_ringbuffer.h")
+
+    return generator_file_list
+
 
 if __name__ == "__main__" :
 
     #print(ringbuffer_h_data)
 
-    generator("huart3","./generator/")
+    generator("huart3","./generator/")#生成
+
+
+
+
+
+
