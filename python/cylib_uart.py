@@ -10,7 +10,56 @@ from python import  cylib_ringbuffer
 
 
 
+uart_c_data = '''
+    
+    #include "cyuart@x@.h"
+    #include <stdint.h>
+    #include <stdboo.h>
+    
+    
+    //cyuart@x@ 串口初始化
+    void cyuart@x@_init(void)
+    {
+        
+    }
+    
+    
+    //cyuart@x@ 接收
+    uint32_t cyuart@x@_rx(uint8_t *buffer, uint32_t size)
+    {
+        return size;
+    }
+    
+    
+    //cyuart@x@ 发送
+    uint32_t cyuart@x@_tx(uint8_t *buffer, uint32_t size)
+    {
+        
+        return size;
+    }
+    
+    
+    //cyuart@x@ 轮询
+    void cyuart@x@_polling(void)
+    {
+        
+    }
+    
+    
+    //
+    void cyuart@x@_interrupt_callback(void)
+    {
+        
+    }
+    
+    
+    
+    
+    
+    
+    
 
+'''
 
 
 
@@ -90,31 +139,70 @@ def get_all_uart_list(code_dectionary):
 
 
 
+def generator_h_file( index ) :
+    h_data = ""
+    try :
+        h = open("cylib/bsp/uart/huart.h")
+        h_data = h.read()
+    finally:
+        if h:
+            h.close()
+
+    h_data = h_data.replace("huart1","huart"+str(index))
 
 
+    # print(h_data)
 
 
+def generator_c_file(index):
+    c_data = ""
+    try:
+        c = open("cylib/bsp/uart/huart.c")
+        c_data = c.read()
+    finally:
+        if c:
+            c.close()
+
+    c_data = c_data.replace("huart1", "huart" + str(index))
+
+    # print(c_data)
+
+
+def generator(name , path) :
+    print(name)
+    print(int(len(name) - 1))
+    name = name[5:6]
+    print("----------------")
+    print(name)
+    print("----------------")
+
+    generator_h_file(name, path)
+    generator_c_file(name, path)
 
 if __name__ == "__main__" :
 
+    generator_path = "generator/uart" #产生目录
     source_code_path = "../code/"
-    generator_path = "./generator/"
-    source_code_patch_path = source_code_path + "cylib/"
+
+
+    cylib_file.createpath(generator_path)
+
 
     print("cylib_uart patch")
 
     list = get_all_uart_list(source_code_path)  #获取代码中的 串口列表
 
-    #检查 源代码文件夹存在性
-    if os.path.exists(source_code_patch_path) == False :
-        os.mkdir(source_code_patch_path) # 创建cylib文件夹
+
+    print("=========")
+    print(list)
+    print("=========")
 
     for huartx in enumerate(list):
         generator_file_list = cylib_ringbuffer.generator(str(huartx[1]), generator_path)  #生成串口缓冲文件
-        shutil.copyfile(generator_path + generator_file_list[0], source_code_patch_path + generator_file_list[0])
-        shutil.copyfile(generator_path + generator_file_list[1], source_code_patch_path + generator_file_list[1])
+        # shutil.copyfile(generator_path + generator_file_list[0], source_code_patch_path + generator_file_list[0])
+        # shutil.copyfile(generator_path + generator_file_list[1], source_code_patch_path + generator_file_list[1])
         print(generator_file_list)
-
+        generator(str(huartx[1]),generator_path)
 
 
 

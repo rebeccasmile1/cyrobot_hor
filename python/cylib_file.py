@@ -39,6 +39,25 @@ def get_path_by_filename_regex( rootpath,  filename ) :
 
 
 
+
+
+
+def createpath(path) :
+    lst = str(path).split("/")
+
+    print(lst)
+    path = ""
+    for name in enumerate(lst) :
+        print(name)
+        path += name[1]+"/"
+        if os.path.exists(path) == False:
+            os.mkdir(path)
+
+
+
+
+
+
 if __name__ == "__main__" :
 
     print("文件")
