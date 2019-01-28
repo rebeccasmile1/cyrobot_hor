@@ -154,7 +154,7 @@ def generator_h_file( index ,path) :
     # print(h_data)
 
 
-def generator_c_file(index):
+def generator_c_file(index, path):
     c_data = ""
     try:
         c = open("cylib/bsp/uart/huart.c")
@@ -178,6 +178,11 @@ def generator(name , path) :
 
     generator_h_file(name, path)
     generator_c_file(name, path)
+
+
+
+
+
 
 if __name__ == "__main__" :
 
@@ -203,7 +208,6 @@ if __name__ == "__main__" :
         # shutil.copyfile(generator_path + generator_file_list[1], source_code_patch_path + generator_file_list[1])
         print(generator_file_list)
         generator(str(huartx[1]),generator_path)
-
 
 
 
