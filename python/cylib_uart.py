@@ -139,7 +139,7 @@ def get_all_uart_list(code_dectionary):
 
 
 
-def generator_h_file( index ) :
+def generator_h_file( index ,path) :
     h_data = ""
     try :
         h = open("cylib/bsp/uart/huart.h")
